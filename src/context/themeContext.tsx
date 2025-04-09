@@ -1,8 +1,6 @@
-import { THEME_COLORS } from '@/utils/theme/colors';
 import { createContext, useContext, useState } from 'react';
 
 interface ThemeContextProps {
-  theme: typeof THEME_COLORS.LIGHT | typeof THEME_COLORS.DARK;
   toggleTheme: () => void;
   isDark: boolean;
 }
@@ -17,7 +15,6 @@ export default function ThemeProvider({ children }) {
   return (
     <ThemeContext.Provider
       value={{
-        theme: isDark ? THEME_COLORS.DARK : THEME_COLORS.LIGHT,
         isDark,
         toggleTheme,
       }}

@@ -8,11 +8,12 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { useTheme } from '@/context/themeContext';
+import { THEME_COLORS } from '@/utils/theme/colors';
 
 const ButtonStyled = Animated.createAnimatedComponent(TouchableOpacity);
 
 export default function Home() {
-  const { toggleTheme, isDark, theme } = useTheme();
+  const { toggleTheme, isDark } = useTheme();
   const progress = useSharedValue(isDark ? 1 : 0);
 
   useEffect(() => {
@@ -24,26 +25,41 @@ export default function Home() {
       backgroundColor: interpolateColor(
         progress.value,
         [0, 0.5, 1],
-        ['#f0f0f0', '#999', '#121212']
+        [THEME_COLORS.LIGHT.background, '#999', THEME_COLORS.DARK.background]
       ),
     };
   });
 
   const textStyle = useAnimatedStyle(() => {
     return {
-      color: interpolateColor(progress.value, [0, 1], ['#000', '#fff']),
+      color: interpolateColor(
+        progress.value,
+        [0, 1],
+        [THEME_COLORS.LIGHT.text, THEME_COLORS.DARK.text]
+      ),
     };
   });
 
   const buttonStyle = useAnimatedStyle(() => {
     return {
-      backgroundColor: progress.value == 1 ? '#43D9AE' : '#011623',
+      backgroundColor: interpolateColor(
+        progress.value,
+        [0, 1],
+        [THEME_COLORS.LIGHT.flashyButton, THEME_COLORS.DARK.flashyButton]
+      ),
     };
   });
 
   const textButtonStyle = useAnimatedStyle(() => {
     return {
-      color: progress.value == 1 ? '#000' : '#fff',
+      color: interpolateColor(
+        progress.value,
+        [0, 1],
+        [
+          THEME_COLORS.LIGHT.textFlashyButton,
+          THEME_COLORS.DARK.textFlashyButton,
+        ]
+      ),
     };
   });
 
@@ -63,7 +79,6 @@ export default function Home() {
           {
             fontWeight: 'bold',
             fontSize: 16,
-            color: theme.text,
           },
           textStyle,
         ]}
@@ -74,7 +89,6 @@ export default function Home() {
         style={[
           {
             padding: 12,
-            backgroundColor: theme.flashyButton,
             borderRadius: 8,
           },
           buttonStyle,
